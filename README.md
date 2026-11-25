@@ -2,7 +2,7 @@
 
 Standalone video-evidence algorithm research.
 
-Checkpoint **if17** adds `if17_research`. Earlier checkpoints are available as Git tags.
+Checkpoint **if18** adds `if18_research`. Earlier checkpoints are available as Git tags.
 
 
 Archives contain code and configuration. Original footage, evaluation answers, run records, models, and credentials are retained separately. Research runners may require local media and dependencies.
