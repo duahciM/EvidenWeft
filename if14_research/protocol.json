@@ -1,0 +1,11 @@
+{
+ "trial":"IF-14 / P2-09 / P3-05 first fixed pass",
+ "source":{"case_budget":19,"per_clip_pair_cap":6,"pair_pool":"IF11 K, IF12 shadow and one S2 before/middle/after path; independent of evaluation labels","framework":"IF12/13 cached roots (same pair reused for all judgment arms)"},
+ "judgement":{"review_thresholds":"logical states, not a probability","weights":{"X":4,"T":4,"G":2,"N":1},"ablations":["tiered","fixed_4_4_2_1","fixed_4_4_2_0"],"root_group":"exact source pair or documented trajectory evidence root; do not count same capture geometry twice","real_identity_default":"unknown when individual features and observed handoff lack verification"},
+ "anchor":{"patch_half_width":30,"patch_half_height":24,"patch_seeds":12,"min_inside":3,"min_outside_train":8,"min_outside_held":3,"held_every":4,"median_px":3,"p90_px":5,"minimum_gap_s":1.1},
+ "native":{"case":"F01","diagnostic_group":"oracle","frames":"the same 24 historical target roots and 3 internal A roots","feature_cap":600,"sift_and_geometric_rules":"same IF13, map native detected coordinates to the 320 analysis space before geometry"},
+ "selection":{"same_pool_budget":8,"max_swaps":1,"only_independent_observed_role":true},
+ "query":{"cases":["N01","N03","F01","room_corridor_dev","local_object"],"protected_schedule":"immutable IF13 allocation receipts, re-execute original reads","windows":2,"interval_s":1.1,"fps":10,"return_max":8,"identity_gap_queries":"shadow only"},
+ "agent":{"cases":["F01","room_corridor_dev"],"provider":"deepseek-account","model":"deepseek-flash","reasoningEffort":"off","maxTokens":1800,"initial_arm":"K_roles","query_max":2,"width_min":0.2,"width_max":1.1,"fps":10,"return_max":8,"intervention":"append one provenance-backed retrieval hint/unknown gap; same prior coverage prompt and initial frames"},
+ "limits":["No evaluation annotations consumed by automatic inference, no scene or physical-instance labels injected into real clips, replacement truth unknown for all 19.","No tuning, training, new VLM or changing defaults.","Logic fixtures have supplied evidence and expected outcomes; fixture accuracy never mixed with real videos."]
+}
