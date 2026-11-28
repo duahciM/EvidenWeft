@@ -1,3 +1,10 @@
 {
-  "files": {}
+  "files": {
+    "evidenweft_phase1/inventory.py": "8d62a3a927ffe132de96e551be41efd4b6d399a0b802add73051788518c8988b",
+    "evidenweft_phase1/measure.py": "80a80581d42cc2202f6c657ef28d6d4f5961a5ac9537e327d9a11406bb86de29",
+    "evidenweft_phase1/prepare.py": "4ebf15c6bbd284aaa870825b5326c567d5f3aa94f687bbe838089a0c5590d2a1",
+    "evidenweft_phase1/protocol_lock.json": "fb4842db83a866e3c25cbe3b60e01a708d81fbf23b448972527b3c00d25889e7",
+    "evidenweft_phase1/public_protocol.json": "8426fc1c5fe2aae3d592c2d51b2efe7ffe615b564afbf2c9f3653e7ae4d922cf",
+    "evidenweft_phase1/source_review.py": "90f281afac04144ce41eeea88238069be9f93f892055d8618109c9d64c6068a9"
+  }
 }
