@@ -6,16 +6,9 @@ from math import hypot, sqrt
 import cv2
 import numpy as np
 
-from . import components as subjects
+from if09_research import subjects
 from p1.core import Parameters, pair_metrics
-from p224_research.settings import SETTINGS
-
-COMPONENTS = SETTINGS["P2"]
-RULES = SETTINGS["nomination"]
-
-
-def frame_key(source, row):
-    return f'{source["sha256"]}:{row["source_frame"]}:{row["pts"]}:{row["time_base"]}'
+from .common import COMPONENTS, RULES, frame_key
 
 
 def proposal(dimension, role, sample, roots, family, comparison, strength=0., region=None, **details):
