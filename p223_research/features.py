@@ -7,12 +7,16 @@ from math import hypot
 import cv2
 import numpy as np
 
-from p217_research.triggers import identifier, visual
+from hashlib import sha256
 
-from .prepare import PROTO
+from p224_research.images import visual
+from p224_research.settings import SETTINGS
 
 
-CFG = PROTO["features"]
+def identifier(*parts):
+    return sha256("|".join(map(str,parts)).encode()).hexdigest()[:20]
+
+CFG = SETTINGS["features"]
 
 
 def overlap(a, b):

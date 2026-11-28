@@ -1,26 +1,12 @@
-"""Goal-driven offline queries and independent release conditions on one frozen batch."""
-import argparse
-from collections import defaultdict
-from concurrent.futures import ThreadPoolExecutor
-from pathlib import Path
+"""Goal-driven evidence selection on a prepared candidate batch."""
 
 import cv2
 import numpy as np
 
-from if17_research.catalog import read,ref
-from p216_research.navigate import checked_json
-from p217_research.triggers import visual
-from p218_research.observer import observe
-from p219_research.score import checked
-from p220_research.score import jsonl
-from p220_research.uniform import run as uniform
-from p223_research.delivery import route as earlier_d1
+from .images import visual
+from .settings import SETTINGS
 
-from .access import Video
-from .prepare import PROTO
-
-
-POL=PROTO["o_policy"]
+POL = SETTINGS["o_policy"]
 
 
 def views(a,b):
@@ -138,52 +124,3 @@ def stage(video,base,use_complements):
                             {"explicit_need":"different temporal or visual context","public_goal_supplies_later_request":needs_late})
                     accepted.append(r)
     return list(selected.values()),requests,[{"candidate":k,"pts":rows[k]["pts"],**explanation.get(k,{"state":"eligible","reason":"available for a later independent decision"})} for k in rows],query
-
-
-def run(out):
-    bundle=read(out/"frozen_p223_candidate_and_wave_manifest.json")
-    def one(goal):
-        gid=goal["id"];pointer=bundle["packets"][gid];p=checked(pointer);video=Video(p)
-        batch=p["proposal"]["batch"]; source=video.source
-        armdata={};counts=[];decisions=[];queries=[];native=[]
-        prior=p["baseline"]
-        if not prior:
-            d0=sorted((r for r in batch if r["D0_order"] is not None),key=lambda r:r["D0_order"])
-            d1,_=earlier_d1(goal,batch,list(p["features"].values()),[],source)
-            for name,selected in (("O0",d0),("O1",d1)):
-                home=out/"streams"/name/gid
-                observe(home,goal,name,source,[r["image"] for r in selected],"new_source_reused_C4_or_D1_method")
-                prior[name]=ref(home/"receipt.json")
-        for name,pin in prior.items():
-            r=checked(pin)
-            armdata[name+"/"+gid]={"observer":pin,"frozen_history":not p["new_source"],"batch":pointer}
-        old_d1=checked(prior["O1"])["items"]
-        lookup={r["pts"]:r for r in batch}
-        base=[lookup[v["pts"]] for v in old_d1]
-        for arm in ("O2","O3"):
-            selected,reads,trace,q=stage(video,base,arm=="O3")
-            folder=out/"streams"/arm/gid
-            r=observe(folder,goal,arm,source,[x["image"] for x in selected],"independent_goal_release_done" if selected else "no_grounded_offer")
-            assert r["technical_abort"] or [x["pts"] for x in r["items"]]==[x["pts"] for x in selected]
-            counts.append({"goal":goal,"arm":arm,"n":r["N_visible"],"public_range":r["public_range"],"source_sha256":r["source_sha256"],"technical_abort":r["technical_abort"]})
-            trial=arm+"/"+gid
-            path=folder/"independent_decision.json"
-            trace_rows=[{"trial":trial,**row} for row in trace];query_rows=[{"trial":trial,**row} for row in q]
-            checked_json(path,{"decision":trace_rows,"metadata_queries":query_rows,"source_revisit_receipts":reads,"actual_delivered_pts":[x["pts"] for x in r["items"]]})
-            decisions.extend(trace_rows);queries.extend(query_rows);native.extend({"trial":trial,**x} for x in reads)
-            armdata[trial]={"observer":ref(folder/"receipt.json"),"frozen_history":False,"decision":ref(path),"batch":pointer}
-            print(trial,len(batch),r["N_visible"],flush=True)
-        return armdata,counts,decisions,queries,native
-    with ThreadPoolExecutor(max_workers=3) as threads:
-        all_results=list(threads.map(one,bundle["goals"]))
-    checked_json(out/"count_only.json",{"pairs":[p for x in all_results for p in x[1]],"explicit_only_counts":True})
-    checked_json(out/"algorithm_lock.json",{"routes":{k:v for x in all_results for k,v in x[0].items()},"count_input":ref(out/"count_only.json")})
-    for name,i in (("offline_delivery_decisions.jsonl",2),("offline_navigation_query_receipts.jsonl",3),("offline_source_revisit_receipts.jsonl",4)):
-        jsonl(out/name,(row for x in all_results for row in x[i]))
-    jsonl(out/"navigation_index.jsonl",({"goal":g,"packet":p,**checked(p)["navigation"]} for g,p in bundle["packets"].items()))
-    checked_json(out/"inputs_and_goals.json",bundle)
-    uniform(out)
-
-
-if __name__=="__main__":
-    p=argparse.ArgumentParser();p.add_argument("--out",required=True,type=Path);run(p.parse_args().out.resolve())

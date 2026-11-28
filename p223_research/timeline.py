@@ -3,7 +3,7 @@
 from fractions import Fraction
 from statistics import median
 
-from .prepare import PROTO
+from p224_research.settings import SETTINGS
 
 
 def time_of(row):
@@ -22,7 +22,7 @@ def timeline(batch, figure1_rows, transitions, source):
     wave = []
     cues = []
     cadence = median([float(time_of(b)-time_of(a)) for a,b in zip(ordered,ordered[1:])]) if len(ordered)>1 else source["end"]-source["start"]
-    detail_gap = cadence*PROTO["features"]["uncertain_gap_in_cadences"]
+    detail_gap = cadence*SETTINGS["features"]["uncertain_gap_in_cadences"]
     unknown = []
     first_t = float(time_of(ordered[0]))
     if first_t > source["start"] and (len(ordered) == 1 or first_t-source["start"] > detail_gap):

@@ -4,7 +4,7 @@ from collections import Counter
 from math import isfinite
 from pathlib import Path
 
-from if20_research.direct import inspect_png
+from .images import inspect_png
 
 
 ALIASES={"rise":"_rise","fall":"_fall","plateau":"plateau","equal_height_change":"equal_count","peak":"_local_peak","gap":"unobserved_gap","transition":"transition_bracket"}

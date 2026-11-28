@@ -1,0 +1,61 @@
+{
+  "P2": {
+    "policy": "Same 15 clips, 4 frozen Psmall proposals maximum actually available, 8 source images. S0 frozen exact; S1 residual components from temporal robust background within frozen proposal's sample budget; same .115 component contrast and .12 total support cap from IF07 Psmall, ROI only anchors initial track whereas searches use image coordinates. Require unique near continuous candidate under area, local shape and max displacement. S2 same S1 path; independently track surrounding reference features and fit partial affine with out-of-subject points, reject unsupported background or conflict. Measure raw appearance and signed relative displacement separately. Add a start/middle/end image only when stable visible reference-relative trajectory supports it; retain all frozen Psmall proposal and P1 broad roles within fixed budget. S3 and Qchain deferred.",
+    "max_patch_frames": 240,
+    "max_component_area_fraction": 0.12,
+    "delta": 0.115,
+    "min_component_pixels": 18,
+    "unique_score_margin": 0.15,
+    "max_candidate_gap": 1,
+    "max_image_step_px": 36,
+    "min_shape_iou": 0.35,
+    "max_reference_fit_error_px": 2.0,
+    "min_reference_points": 8,
+    "min_background_quadrants": 3,
+    "min_background_coverage": 0.15,
+    "min_relative_displacement_px": 8,
+    "max_plateau_jitter_px": 3,
+    "plateau_frames": 3
+  },
+  "nomination": {
+    "local": {
+      "legacy_component_config": "if09_research/protocol.json#P2",
+      "neighbor_offset": 4,
+      "minimum_comparisons": 3,
+      "max_registration_px": 12,
+      "min_phase": 0.15,
+      "border_px": 3,
+      "minimum_compactness": 0.3,
+      "max_region_fraction": 0.025,
+      "maximum_regions_per_frame": 3,
+      "nearby_seconds": 0.8,
+      "context_edge_distance_px": 28,
+      "bracket_max_s": 1.3,
+      "soft_group_seconds": 0.6
+    },
+    "modules": [
+      "D1",
+      "D2",
+      "D3",
+      "D4",
+      "D5",
+      "D6"
+    ]
+  },
+  "features": {
+    "min_iou_same_region": 0.32,
+    "min_local_contrast": 17,
+    "max_region_frame_fraction": 0.36,
+    "max_near_gap_box_fraction": 0.48,
+    "analysis_width": 320,
+    "uncertain_gap_in_cadences": 2.5
+  },
+  "o_policy": {
+    "view_delta": 0.048,
+    "comparable_view_delta": 0.075,
+    "local_floor": 12,
+    "wave_local_floor": 18,
+    "coverage_zones": 3,
+    "scope": "late only = final third; otherwise full video"
+  }
+}

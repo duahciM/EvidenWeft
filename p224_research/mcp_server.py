@@ -6,8 +6,6 @@ from pathlib import Path
 import sys
 from uuid import uuid4
 
-from if17_research.catalog import read
-
 from .access import Video
 
 
@@ -28,7 +26,7 @@ def append(log,doc):
 
 
 def serve(args):
-    packet=read(args.packet)
+    packet=json.loads(args.packet.read_text(encoding="utf-8"))
     backend=Video(packet)
     available={k:v for k,v in TOOLS.items() if k!="wave_query" or args.wave}
     for line in sys.stdin:
