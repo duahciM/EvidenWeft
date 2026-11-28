@@ -1,13 +1,7 @@
 # EvidenWeft
 
-Core offline video-evidence algorithms. The source contains D1–D6 nominations, Figure 1/2 measurement, discrete timeline cues, evidence selection, and an MCP service for prepared packets.
+Current frozen research source: **VisuReach 0.6.0 baseline**. Earlier snapshots are tagged in [Releases](https://github.com/duahciM/EvidenWeft/releases). Older modules still imported by these sources remain as dependencies.
 
-Install `requirements.txt`, then run:
+[DSH integration](https://github.com/duahciM/dsh-visureach) ships separately. For the baseline algorithm MCP service, follow [the pre-study README](https://github.com/duahciM/EvidenWeft/blob/2b5e2d4/README.md).
 
-```sh
-python -m p224_research.mcp_server --packet <prepared.json> --log <calls.jsonl> --wave
-```
-
-The MCP service accepts an existing packet and checks original PNG hashes and dimensions. The service returns navigation metadata or exact originals at registered timestamps. Raw-video ingest for end users is available in [VisuReach](https://github.com/duahciM/dsh-visureach).
-
-[Research records and protocols](https://github.com/duahciM/EvidenWeft-Archive) · [Historical source releases](https://github.com/duahciM/EvidenWeft/releases)
+[Experiment data and reports](https://github.com/duahciM/EvidenWeft-Archive/tree/main/post-0.6.0)
